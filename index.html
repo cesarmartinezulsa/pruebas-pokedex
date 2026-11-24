@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#D52033">
+  <meta name="description" content="Pokédex de la primera generación: captura Pokémon escaneando códigos QR.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Pokédex">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Pokédex</title>
+</head>
+<body class="bg-neutral-900 font-sans">
+
+  <div id="app" class="relative mx-auto flex h-[100dvh] max-w-[420px] flex-col overflow-hidden bg-[#e4e4e4]">
+
+    <!-- Header -->
+    <header id="header" class="bg-dex px-4 pb-3 pt-6 transition-all">
+      <h1 class="text-[28px] font-extrabold leading-none text-white">Pokédex</h1>
+      <div id="header-progress" class="mt-3">
+        <p id="hdr-count" class="text-right text-[10px] font-medium text-white">0/151</p>
+        <div class="mt-0.5 h-2 w-full overflow-hidden rounded-full bg-white">
+          <div id="hdr-bar" class="h-full rounded-full bg-amber-400 transition-all" style="width:0%"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenido -->
+    <main class="relative flex-1 overflow-y-auto pb-28">
+
+      <!-- Mi Pokédex -->
+      <section data-view="pokedex" class="p-4">
+        <div id="pokedex-vacio" class="mb-4 hidden items-center gap-3 rounded-2xl bg-white p-4 shadow-sm">
+          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-neutral-200 text-neutral-500">
+            <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h6M15 12h6"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div>
+            <h2 class="text-sm font-extrabold text-neutral-900">Tu Pokédex está vacía</h2>
+            <p class="text-[11px] text-neutral-600">Escanea tu primer código QR para comenzar tu aventura.</p>
+          </div>
+        </div>
+        <div id="pokedex-contenido" class="grid grid-cols-2 gap-3"></div>
+      </section>
+
+      <!-- Progreso -->
+      <section data-view="progress" class="hidden space-y-4 p-4">
+        <div class="rounded-2xl bg-white p-5 text-center shadow-sm">
+          <h2 class="text-base font-extrabold text-neutral-900">Your Progress</h2>
+          <div class="relative mx-auto mt-4 h-36 w-36">
+            <svg viewBox="0 0 120 120" class="h-full w-full -rotate-90">
+              <circle cx="60" cy="60" r="52" fill="none" stroke="#e5e5e5" stroke-width="10"/>
+              <circle id="ring" cx="60" cy="60" r="52" fill="none" stroke="#D52033" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" class="transition-all duration-700"/>
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span id="prog-pct" class="text-2xl font-extrabold text-neutral-900">0%</span>
+              <span class="text-[10px] text-neutral-500">completed</span>
+            </div>
+          </div>
+          <p id="prog-count" class="mt-4 text-sm font-semibold text-neutral-800">0/151 pokemon</p>
+          <div class="mt-3 h-2 w-full overflow-hidden rounded-full bg-neutral-200">
+            <div id="prog-bar" class="h-full rounded-full bg-amber-400 transition-all" style="width:0%"></div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="rounded-2xl bg-white p-4 shadow-sm">
+            <p class="text-[10px] text-neutral-500">Captured</p>
+            <p id="prog-cap" class="text-2xl font-extrabold text-neutral-900">0</p>
+          </div>
+          <div class="rounded-2xl bg-white p-4 shadow-sm">
+            <p class="text-[10px] text-neutral-500">Still to find</p>
+            <p id="prog-falta" class="text-2xl font-extrabold text-neutral-900">151</p>
+          </div>
+        </div>
+
+        <div id="prog-ultimo-card" class="hidden items-center gap-3 rounded-2xl bg-white p-4 shadow-sm">
+          <img id="prog-ultimo-img" alt="" class="h-12 w-12 object-contain">
+          <div>
+            <p class="text-[10px] text-neutral-500">Latest capture</p>
+            <p id="prog-ultimo" class="text-sm font-extrabold text-neutral-900"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Acerca de -->
+      <section data-view="about" class="hidden space-y-4 p-4">
+        <div class="rounded-2xl bg-white p-5 text-center shadow-sm">
+          <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-dex text-white">
+            <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h6M15 12h6"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h2 class="mt-3 text-xl font-extrabold text-neutral-900">Pokédex</h2>
+          <p class="text-[10px] text-neutral-500">Pokédex app :D</p>
+          <p class="mt-3 text-xs text-neutral-700">Captura Pokémon de la primera generación escaneando códigos QR.</p>
+          <p class="mt-2 text-[10px] text-neutral-400">Versión 1.0</p>
+        </div>
+
+        <div>
+          <h3 class="mb-2 px-1 text-xs font-extrabold text-neutral-900">Team</h3>
+          <div class="space-y-2">
+            <div class="flex items-center gap-3 rounded-2xl bg-white p-3 shadow-sm">
+              <span class="flex h-10 w-10 items-center justify-center rounded-full bg-dex text-xs font-extrabold text-white">CA</span>
+              <div><p class="text-xs font-extrabold text-neutral-900">Caleb Aguilar León</p><p class="text-[10px] text-neutral-500">Designer · Software Developer</p></div>
+            </div>
+            <div class="flex items-center gap-3 rounded-2xl bg-white p-3 shadow-sm">
+              <span class="flex h-10 w-10 items-center justify-center rounded-full bg-dex text-xs font-extrabold text-white">CM</span>
+              <div><p class="text-xs font-extrabold text-neutral-900">César Martínez Ruiz</p><p class="text-[10px] text-neutral-500">Software Developer</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="mb-2 px-1 text-xs font-extrabold text-neutral-900">Built with</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="rounded-full bg-white px-3 py-1 text-[10px] font-semibold text-neutral-700 shadow-sm">HTML</span>
+            <span class="rounded-full bg-white px-3 py-1 text-[10px] font-semibold text-neutral-700 shadow-sm">JavaScript</span>
+            <span class="rounded-full bg-white px-3 py-1 text-[10px] font-semibold text-neutral-700 shadow-sm">Tailwind CSS</span>
+            <span class="rounded-full bg-white px-3 py-1 text-[10px] font-semibold text-neutral-700 shadow-sm">PokéAPI</span>
+            <span class="rounded-full bg-white px-3 py-1 text-[10px] font-semibold text-neutral-700 shadow-sm">localStorage</span>
+            <span class="rounded-full bg-white px-3 py-1 text-[10px] font-semibold text-neutral-700 shadow-sm">PWA</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scanner QR -->
+      <section data-view="scanner" class="hidden p-5">
+        <div class="flex items-center gap-2 text-neutral-900">
+          <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/>
+            <rect x="7" y="7" width="3" height="3"/><rect x="14" y="7" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/><path d="M14 14h3v3"/>
+          </svg>
+          <p class="text-xs font-semibold">Apunta la cámara al código QR</p>
+        </div>
+
+        <div class="relative mx-auto mt-4 aspect-square w-full max-w-[280px] rounded-2xl bg-neutral-300">
+          <div id="qr-reader"></div>
+          <span class="pointer-events-none absolute left-3 top-3 z-10 h-8 w-8 rounded-tl-xl border-l-4 border-t-4 border-white"></span>
+          <span class="pointer-events-none absolute right-3 top-3 z-10 h-8 w-8 rounded-tr-xl border-r-4 border-t-4 border-white"></span>
+          <span class="pointer-events-none absolute bottom-3 left-3 z-10 h-8 w-8 rounded-bl-xl border-b-4 border-l-4 border-white"></span>
+          <span class="pointer-events-none absolute bottom-3 right-3 z-10 h-8 w-8 rounded-br-xl border-b-4 border-r-4 border-white"></span>
+        </div>
+
+        <div id="scanner-msg" class="mx-auto mt-4 hidden max-w-[280px] rounded-xl bg-white p-3 text-center shadow-sm">
+          <p id="scanner-msg-text" class="text-xs text-neutral-700"></p>
+          <button data-accion="reintentar-camara" class="mt-2 rounded-full bg-dex px-4 py-2 text-[11px] font-semibold text-white active:scale-95">Reintentar</button>
+        </div>
+
+        <div class="mx-auto mt-4 max-w-[280px] text-center">
+          <button id="btn-imagen" class="rounded-full bg-white px-4 py-2 text-[11px] font-semibold text-neutral-800 shadow-sm active:scale-95">Elegir imagen del QR</button>
+          <input id="qr-file" type="file" accept="image/*" class="hidden">
+        </div>
+      </section>
+    </main>
+
+    <!-- FAB -->
+    <button id="fab" aria-label="Escanear"
+            class="absolute bottom-[84px] right-4 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-fab text-white shadow-lg active:scale-95">
+      <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+
+    <!-- Bottom Navigation -->
+    <nav class="absolute inset-x-0 bottom-0 z-10 flex items-center justify-around bg-dex px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      <button data-nav="pokedex" aria-label="Mi Pokédex" class="rounded-lg p-2.5 text-white">
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      </button>
+      <button data-nav="progress" aria-label="Progreso" class="rounded-lg p-2.5 text-white">
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 15l4-4 3 2 3-4"/></svg>
+      </button>
+      <button data-nav="about" aria-label="Acerca de" class="rounded-lg p-2.5 text-white">
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+      </button>
+    </nav>
+
+    <!-- Bottom Sheet -->
+    <div id="sheet-overlay" class="pointer-events-none absolute inset-0 z-20 bg-black/50 opacity-0 transition-opacity duration-300"></div>
+    <div id="sheet" role="dialog" aria-modal="true" aria-label="Detalle del Pokémon"
+         class="pointer-events-none absolute inset-x-0 bottom-0 z-30 max-h-[85%] translate-y-full overflow-y-auto rounded-t-3xl bg-[#ececec] px-6 pb-8 pt-3 text-center transition-transform duration-300">
+      <button id="sheet-handle" aria-label="Cerrar" class="mx-auto mb-3 block h-1.5 w-12 rounded-full bg-neutral-400"></button>
+      <div id="sheet-body"></div>
+    </div>
+
+    <!-- Toast / Snackbar -->
+    <div id="toast" role="status" aria-live="polite"
+         class="pointer-events-none absolute inset-x-4 bottom-[152px] z-40 flex translate-y-2 items-center gap-3 rounded-xl bg-neutral-900 px-4 py-3 text-xs font-medium text-white opacity-0 shadow-lg transition-all duration-300">
+      <span id="toast-dot" class="h-2.5 w-2.5 shrink-0 rounded-full bg-green-400"></span>
+      <span id="toast-text"></span>
+    </div>
+  </div>
+
+  <script src="js/vendor/html5-qrcode.min.js"></script>
+  <script src="js/datos.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/scanner.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
